@@ -13,6 +13,8 @@ public interface ProductService {
 
     Product save(MultipartFile imageProduct, ProductDto productDto);
 
+    Product getProductById(Long id);
+
     void deleteById(Long id);
     void enableById(Long id);
 
@@ -20,4 +22,16 @@ public interface ProductService {
 
     Page<ProductDto> pageProducts(int pageNo);
     Page<ProductDto> searchProducts(int pageNo, String keyword);
+
+    List<Product> getAllProducts();
+
+    List<Product> listViewProducts();
+
+    List<Product> getRelatedProducts(Long categoryId);
+
+    List<Product> getProductsInCategory(Long categoryId);
+
+    List<Product> filterHighPrice();
+
+    List<Product> filterLowPrice();
 }

@@ -11,11 +11,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Admin" />
+        <module name="Customer" />
         <module name="Library" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="Customer" target="17" />
+      <module name="Ecommerce-Springboot" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

@@ -20,12 +20,12 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements ProductService {
     @Autowired
-    ProductRepository repo;
+    ProductRepository productRepository;
     @Autowired
     ImageUpload imageUpload;
     @Override
     public List<ProductDto> findAll() {
-        List<Product> products = repo.findAll();
+        List<Product> products = productRepository.findAll();
         List<ProductDto> productDtoList = transfer(products);
         return productDtoList;
     }
@@ -50,7 +50,7 @@ public class ProductServiceImpl implements ProductService {
             product.setCurrentQuantity(productDto.getCurrentQuantity());
             product.set_activated(true);
             product.set_deleted(false);
-            return repo.save(product);
+            return productRepository.save(product);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -58,11 +58,16 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
+    @Override
+    public Product getProductById(Long id) {
+        return productRepository.getById(id);
+    }
+
 
     @Override
     public Product update(MultipartFile imageProduct ,ProductDto productDto) {
         try {
-            Product product = repo.getById(productDto.getId());
+            Product product = productRepository.getById(productDto.getId());
             if(imageProduct == null){
                 product.setImage(product.getImage());
             }else{
@@ -77,7 +82,7 @@ public class ProductServiceImpl implements ProductService {
             product.setCostPrice(productDto.getCostPrice());
             product.setCurrentQuantity(productDto.getCurrentQuantity());
             product.setCategory(productDto.getCategory());
-            return repo.save(product);
+            return productRepository.save(product);
         }catch (Exception e){
             e.printStackTrace();
             return null;
@@ -86,23 +91,23 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteById(Long id) {
-        Product product = repo.findById(id).get();
+        Product product = productRepository.findById(id).get();
         product.set_activated(false);
         product.set_deleted(true);
-        repo.save(product);
+        productRepository.save(product);
     }
 
     @Override
     public void enableById(Long id) {
-        Product product = repo.findById(id).get();
+        Product product = productRepository.findById(id).get();
         product.set_activated(true);
         product.set_deleted(false);
-        repo.save(product);
+        productRepository.save(product);
     }
 
     @Override
     public ProductDto getById(Long id) {
-        Product product = repo.getById(id);
+        Product product = productRepository.getById(id);
         ProductDto productDto = new ProductDto();
         productDto.setId(product.getId());
         productDto.setName(product.getName());
@@ -120,7 +125,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<ProductDto> pageProducts(int pageNo) {
         Pageable pageable = PageRequest.of(pageNo, 5);
-        List<ProductDto> products = transfer(repo.findAll());
+        List<ProductDto> products = transfer(productRepository.findAll());
         Page<ProductDto> productPages = toPage(products, pageable);
         return productPages;
     }
@@ -128,9 +133,39 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<ProductDto> searchProducts(int pageNo, String keyword) {
         Pageable pageable = PageRequest.of(pageNo, 5);
-        List<ProductDto> productDtoList = transfer(repo.searchProductsList(keyword));
+        List<ProductDto> productDtoList = transfer(productRepository.searchProductsList(keyword));
         Page<ProductDto> products = toPage(productDtoList, pageable);
         return products;
+    }
+
+    @Override
+    public List<Product> getAllProducts() {
+        return productRepository.getAllProducts();
+    }
+
+    @Override
+    public List<Product> listViewProducts() {
+        return productRepository.listViewProducts();
+    }
+
+    @Override
+    public List<Product> getRelatedProducts(Long categoryId) {
+        return null;
+    }
+
+    @Override
+    public List<Product> getProductsInCategory(Long categoryId) {
+        return null;
+    }
+
+    @Override
+    public List<Product> filterHighPrice() {
+        return null;
+    }
+
+    @Override
+    public List<Product> filterLowPrice() {
+        return null;
     }
 
     private Page toPage(List<ProductDto> list , Pageable pageable){
