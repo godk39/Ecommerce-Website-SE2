@@ -56,4 +56,15 @@ public class OrderController {
         return "order";
     }
 
+    @GetMapping("/save-order")
+    public String saveOrder(Principal principal){
+        if (principal == null){
+            return "redirect:/login";
+        }
+        String username = principal.getName();
+        Customer customer = customerService.findByUsername(username);
+        ShoppingCart cart = customer.getShoppingCart();
+        orderService.saveOrder(cart);
+        return "redirect:/order";
+    }
 }
