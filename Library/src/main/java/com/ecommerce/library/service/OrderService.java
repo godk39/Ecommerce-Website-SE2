@@ -11,7 +11,6 @@ import com.ecommerce.library.model.ShoppingCart;
 public interface OrderService {
     List<Order> findAll();
     Order findById(Long id);
-    void deleteById(Long id);
     List<Order> findAllByActivated();
     void saveOrder(ShoppingCart cart);
     void acceptOrder(Long id);
