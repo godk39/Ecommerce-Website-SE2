@@ -1,11 +1,8 @@
 package com.ecommerce.library.service.impl;
 
-<<<<<<< HEAD
 import com.ecommerce.library.model.Order;
 import com.ecommerce.library.service.OrderService;
 import org.springframework.stereotype.Service;
-
-=======
 import com.ecommerce.library.model.CartItem;
 import com.ecommerce.library.model.Order;
 import com.ecommerce.library.model.OrderDetail;
@@ -21,33 +18,10 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
->>>>>>> da61d2c9141ab50b0045e63643740883e4fdd868
 import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
-<<<<<<< HEAD
-
-    @Override
-    public List<Order> findAll() {
-        return null;
-    }
-
-    @Override
-    public Order findById(Long id) {
-        return null;
-    }
-
-
-    @Override
-    public void deleteById(Long id) {
-
-    }
-
-    @Override
-    public List<Order> findAllByActivated() {
-        return null;
-=======
     @Autowired
     private OrderDetailRepository orderDetailRepository;
     @Autowired
@@ -58,47 +32,63 @@ public class OrderServiceImpl implements OrderService {
     private CartItemRepository cartItemRepository;
 
     @Override
-    public Order findById(long id) {
-        return orderRepository.findById(id);
+    public List<Order> findAll() {
+        return null;
+    }
+
+
+    @Override
+    public void deleteById(Long id) {
+
     }
 
     @Override
-    public void saveOrder(ShoppingCart cart) {
-        Order order = new Order();
-        order.setOrderStatus("PENDING");
-        order.setOrderDate(new Date());
-        order.setCustomer(cart.getCustomer());
-        order.setTotalPrice(cart.getTotalPrices());
-        List<OrderDetail> orderDetailList = new ArrayList<>();
-        for(CartItem item : cart.getCartItem()){
-            OrderDetail orderDetail = new OrderDetail();
-            orderDetail.setOrder(order);
-            orderDetail.setQuantity(item.getQuantity());
-            orderDetail.setProduct(item.getProduct());
-            orderDetail.setUnitPrice(item.getProduct().getCostPrice());
-            orderDetailRepository.save(orderDetail);
-            orderDetailList.add(orderDetail);
-            cartItemRepository.delete(item);
+    public Order findById(Long id) {
+        return orderRepository.findById(id).get();
+
+    }
+    @Override
+    public List<Order> findAllByActivated() {
+        return null;
+
+    }
+        @Override
+        public void saveOrder (ShoppingCart cart){
+            Order order = new Order();
+            order.setOrderStatus("PENDING");
+            order.setOrderDate(new Date());
+            order.setCustomer(cart.getCustomer());
+            order.setTotalPrice(cart.getTotalPrices());
+            List<OrderDetail> orderDetailList = new ArrayList<>();
+            for (CartItem item : cart.getCartItem()) {
+                OrderDetail orderDetail = new OrderDetail();
+                orderDetail.setOrder(order);
+                orderDetail.setQuantity(item.getQuantity());
+                orderDetail.setProduct(item.getProduct());
+                orderDetail.setUnitPrice(item.getProduct().getCostPrice());
+                orderDetailRepository.save(orderDetail);
+                orderDetailList.add(orderDetail);
+                cartItemRepository.delete(item);
+            }
+            order.setOrderDetailList(orderDetailList);
+            cart.setCartItem(new HashSet<>());
+            cart.setTotalItems(0);
+            cart.setTotalPrices(0);
+            shoppingCartRepository.save(cart);
+            orderRepository.save(order);
         }
-        order.setOrderDetailList(orderDetailList);
-        cart.setCartItem(new HashSet<>());
-        cart.setTotalItems(0);
-        cart.setTotalPrices(0);
-        shoppingCartRepository.save(cart);
-        orderRepository.save(order);
+
+        @Override
+        public void acceptOrder (Long id){
+            Order order = orderRepository.getById(id);
+            order.setDeliveryDate(new Date());
+            order.setOrderStatus("SHIPPING");
+            orderRepository.save(order);
+        }
+
+        @Override
+        public void cancelOrder (Long id){
+            orderRepository.deleteById(id);
+        }
     }
 
-    @Override
-    public void acceptOrder(Long id) {
-        Order order = orderRepository.getById(id);
-        order.setDeliveryDate(new Date());
-        order.setOrderStatus("SHIPPING");
-        orderRepository.save(order);
-    }
-
-    @Override
-    public void cancelOrder(Long id) {
-        orderRepository.deleteById(id);
->>>>>>> da61d2c9141ab50b0045e63643740883e4fdd868
-    }
-}

@@ -28,6 +28,8 @@ public class Order {
     @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
     private Customer customer;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
+    private List<OrderDetail> orderDetailList;
     public Long getId() {
         return id;
     }
@@ -100,6 +102,5 @@ public class Order {
         this.orderDetailList = orderDetailList;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
-    private List<OrderDetail> orderDetailList;
+
 }

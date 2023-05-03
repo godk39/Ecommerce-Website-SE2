@@ -21,11 +21,8 @@ public class OrderDetail {
     private double totalPrice;
     private double unitPrice;
 
-<<<<<<< HEAD
     @ManyToOne(fetch = FetchType.LAZY)
-=======
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
->>>>>>> da61d2c9141ab50b0045e63643740883e4fdd868
     @JoinColumn(name = "order_id", referencedColumnName = "order_id")
     private Order order;
 
