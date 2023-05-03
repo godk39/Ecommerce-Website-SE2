@@ -28,48 +28,42 @@
                 <div th:if="${size == 0}">
                     <p>No orders</p>
                 </div>
-                <div th:if = "${success}" class="text-center alert alert-success">
+                <div th:if="${success}" class="text-center alert alert-success">
                     <p th:text="${success}"></p>
                 </div>
-                <div th:if = "${failed}" class="text-center alert alert-danger">
+                <div th:if="${failed}" class="text-center alert alert-danger">
                     <p th:text="${failed}"></p>
                 </div>
                 <table class="table table-bordered" th:if="${size > 0}">
                     <thead>
                     <tr>
                         <th scope="col">Order Index</th>
-                        <th scope="col">Delivery Date</th>
                         <th scope="col">Total Price</th>
                         <th scope="col">Shipping Fee</th>
                         <th scope="col">Customer</th>
+                        <th scope="col">Address</th>
                         <th scope="col">Action</th>
 
                     </tr>
                     </thead>
                     <tbody>
-                    <tr >
-                        <th scope="row" ></th>
-                        <td ></td>
+                    <tr th:each="order : ${orders}">
+                        <th scope="row" th:text="${order.id}"></th>
+                        <td th:text="${order.totalPrice}"></td>
+                        <td th:text="${order.shippingFee}"></td>
+                        <td th:text="${order.customer.username}"></td>
+                        <td th:text="${order.customer.address}"></td>
                         <td>
-                        </td>
-                        <td>
-                        </td>
-                        <td>
-                        </td>
-                        <td>
-                        </td>
-                        <td>
-                            <a  class="btn btn-warning">Delete</a>
+                            <a th:id="btn" th:href="@{/accept-order/{id} (id = ${order.id})}" class="btn btn-warning">Accept</a>
 
-                            <a  class="btn btn-primary">Enable</a>
-
+                            <a th:href="@{/decline-order/{id} (id = ${order.id})}" class="btn btn-primary">Decline</a>
                         </td>
                     </tr>
                     </tbody>
                 </table>
-            </div>
-            <!-- /.container-fluid -->
 
+            <!-- /.container-fluid -->
+            </div>
         </div>
         <!-- End of Main Content -->
 
@@ -88,37 +82,10 @@
 <a th:replace="fragments :: scroll">
 </a>
 
-<!-- Logout Modal-->
 
-<!--Change Name category Modal-->
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalExample" aria-hidden="true">
-    <form th:action="@{/update-category}" method="put">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit Category</h5>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="idEdit" class="col-form-label">Id:</label>
-                        <input type="text" class="form-control"  id="idEdit" name="id" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="nameEdit" class="col-form-label">Name:</label>
-                        <input type="text" class="form-control"  id="nameEdit" name="name">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </div>
-            </div>
-        </div>
-    </form>
-</div>
-<!---->
 <!-- Bootstrap core JavaScript-->
 <div th:replace="fragments :: script"></div>
+<script th:src="@{/js/orders.js}"></script>
 
 </body>
 

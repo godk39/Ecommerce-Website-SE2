@@ -1,5 +1,6 @@
 package com.ecommerce.library.service.impl;
 
+import com.ecommerce.library.dto.ProductDto;
 import com.ecommerce.library.model.Order;
 import com.ecommerce.library.service.OrderService;
 import org.springframework.stereotype.Service;
@@ -30,9 +31,16 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> findAll() {
-        return null;
+        return orderRepository.findAll();
     }
 
+    @Override
+    public void acceptOrder(Long id) {
+        Order order = orderRepository.findById(id).get();
+        order.setDeliveryDate(new Date());
+        order.setOrderStatus("SHIPPING");
+        orderRepository.save(order);
+    }
 
 
     @Override
@@ -41,8 +49,8 @@ public class OrderServiceImpl implements OrderService {
     }
     @Override
     public Order findById(Long id) {
+        System.out.println(id);
         return orderRepository.findById(id).get();
-
     }
 
     @Override
@@ -75,15 +83,6 @@ public class OrderServiceImpl implements OrderService {
         shoppingCartRepository.save(cart);
         orderRepository.save(order);
     }
-
-    @Override
-    public void acceptOrder(Long id) {
-        Order order = orderRepository.getById(id);
-        order.setDeliveryDate(new Date());
-        order.setOrderStatus("SHIPPING");
-        orderRepository.save(order);
-    }
-
 
 }
 
