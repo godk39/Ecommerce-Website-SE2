@@ -4,16 +4,13 @@ import com.ecommerce.library.model.Order;
 import com.ecommerce.library.service.OrderService;
 import org.springframework.stereotype.Service;
 import com.ecommerce.library.model.CartItem;
-import com.ecommerce.library.model.Order;
 import com.ecommerce.library.model.OrderDetail;
 import com.ecommerce.library.model.ShoppingCart;
 import com.ecommerce.library.repository.CartItemRepository;
 import com.ecommerce.library.repository.OrderDetailRepository;
 import com.ecommerce.library.repository.OrderRepository;
 import com.ecommerce.library.repository.ShoppingCartRepository;
-import com.ecommerce.library.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
